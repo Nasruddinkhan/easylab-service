@@ -3,12 +3,13 @@ package com.easylab.service.entity;
 import lombok.*;
 
 import javax.persistence.*;
+/**
+ * @author Nasruddin
+ */
 
-@Data
 @Getter
 @Setter
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "inquiry")
 public class Inquiry {

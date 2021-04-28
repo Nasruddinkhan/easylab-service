@@ -1,8 +1,5 @@
 package com.easylab.service.controller;
 
-import static com.easylab.service.constant.ApiConstant.CREATE_INQUIRY;
-import static com.easylab.service.constant.ApiConstant.CREATED_STATUS;
-
 
 import com.easylab.service.dto.InquiryDto;
 import com.easylab.service.services.InquiryService;
@@ -22,8 +19,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.easylab.service.constant.ApiConstant.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
+/**
+ * @author Nasruddin
+ */
 @RestController
 @Tag(name = "InquiryController", description = "the InquiryController API with documentation annotations")
 @RequestMapping("/api/enquiry")
@@ -60,6 +61,19 @@ public class InquiryController {
     public ResponseEntity<InquiryDto> getInquiryById(@Parameter(description = "InqId of Inquiry to be searched")
                                                      @PathVariable Long inqId) {
         InquiryDto inquiryDto = inquiryService.findByInquiryId(inqId);
+        return new ResponseEntity<>(inquiryDto, HttpStatus.OK);
+    }
+
+    @Operation(summary = UPDATE_INQUIRY)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = CREATED_STATUS, description = "inquiry update", content = {@
+                    Content(mediaType = "application/json", schema = @Schema(implementation = InquiryDto.class))}),
+            @ApiResponse(responseCode = "404", description = "Bad request", content = @Content)})
+    @PutMapping("/{inqId}")
+    public ResponseEntity<InquiryDto> updateInquiry(@RequestBody @Valid InquiryDto inquiryDto,
+                                                    @Parameter(description = "InqId of Inquiry to be searched")
+                                                    @PathVariable Long inqId) {
+        inquiryDto = inquiryService.updateInquiry(inquiryDto, inqId);
         return new ResponseEntity<>(inquiryDto, HttpStatus.OK);
     }
 }

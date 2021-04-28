@@ -1,5 +1,7 @@
 package com.easylab.service.constant;
-
+/**
+ * @author Nasruddin
+ */
 public class MessageConstant {
     private MessageConstant(){}
     public static final String NAME_EMPTY_VLD = "{inquiry.name.not-blank}";

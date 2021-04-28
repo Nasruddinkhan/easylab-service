@@ -7,13 +7,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+/**
+ * @author Nasruddin
+ */
 
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
 public class InquiryDto {
     @JsonProperty("inq_id")
     private Long inqId;
