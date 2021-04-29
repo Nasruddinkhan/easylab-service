@@ -64,7 +64,7 @@ class InquiryControllerTest {
                 .toUri();
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<InquiryDto> entity = new HttpEntity<InquiryDto>(inquiryDto, headers);
+        HttpEntity<InquiryDto> entity = new HttpEntity<>(inquiryDto, headers);
 
         inquiryDto = restTemplate.exchange(targetUrl, HttpMethod.PUT, entity, InquiryDto.class).getBody();
         assertEquals(mobileNo, inquiryDto.getMobileNo());
