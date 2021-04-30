@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static com.easylab.service.constant.ApiConstant.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -60,8 +62,18 @@ public class InquiryController {
     @GetMapping("/{inqId}")
     public ResponseEntity<InquiryDto> getInquiryById(@Parameter(description = "InqId of Inquiry to be searched")
                                                      @PathVariable Long inqId) {
-        InquiryDto inquiryDto = inquiryService.findByInquiryId(inqId);
-        return new ResponseEntity<>(inquiryDto, HttpStatus.OK);
+        return new ResponseEntity<>(inquiryService.findByInquiryId(inqId), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get all Inquires")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "found the Inquires", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = InquiryDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Inquiry not found", content = @Content)})
+    @GetMapping("/all")
+    public ResponseEntity<List<InquiryDto>> findAllInquires() {
+        return new ResponseEntity<>(inquiryService.findAllInquires(), HttpStatus.OK);
     }
 
     @Operation(summary = UPDATE_INQUIRY)
@@ -73,7 +85,19 @@ public class InquiryController {
     public ResponseEntity<InquiryDto> updateInquiry(@RequestBody @Valid InquiryDto inquiryDto,
                                                     @Parameter(description = "InqId of Inquiry to be searched")
                                                     @PathVariable Long inqId) {
-        inquiryDto = inquiryService.updateInquiry(inquiryDto, inqId);
-        return new ResponseEntity<>(inquiryDto, HttpStatus.OK);
+        return new ResponseEntity<>(inquiryService.updateInquiry(inquiryDto, inqId), HttpStatus.OK);
+    }
+
+
+    @Operation(summary = DELETE_INQUIRY)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Successful No Content", content = {@
+                    Content(mediaType = "application/json", schema = @Schema(implementation = InquiryDto.class))}),
+            @ApiResponse(responseCode = "404", description = "Bad request", content = @Content)})
+    @DeleteMapping("/{inqId}")
+    public ResponseEntity<Void> deleteInquiry(@Parameter(description = "InqId of Inquiry to be searched & delete")
+                                              @PathVariable Long inqId) {
+        inquiryService.deleteInquiry(inqId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

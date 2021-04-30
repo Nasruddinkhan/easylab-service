@@ -4,36 +4,43 @@ import com.easylab.service.dto.InquiryDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class InquiryControllerTest {
+    private final TestRestTemplate restTemplate;
+    private transient static final String NAME = "Nasruddin";
+    private transient static final String MOBILE_NO = "9987353738";
+
     @Autowired
-    private TestRestTemplate restTemplate;
-    private static final String NAME = "Nasruddin";
-    private static final String MOBILE_NO = "9987353738";
+    InquiryControllerTest(TestRestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @Test
     void addInquiry() {
 
-        InquiryDto inquiryDto = InquiryDto.builder().companyId(2L).emailId("nasruddinkhan44@gmail.com")
-                .inqId(1L)
-                .mobileNo("9987353738").status("Y").name("Nasruddin").build();
-        URI targetUrl = UriComponentsBuilder.fromUriString("/api/enquiry/add")
+        InquiryDto inquiryDto;
+        InquiryDto.InquiryDtoBuilder builder = InquiryDto.builder();
+        builder.companyId(2L);
+        builder.emailId("nasruddinkhan44@gmail.com");
+        builder.inqId(1L);
+        builder.mobileNo("9987353738");
+        builder.status("Y");
+        builder.name("Nasruddin");
+        inquiryDto = builder.build();
+        final URI targetUrl = fromUriString("/api/enquiry/add")
                 .build()
                 .encode()
                 .toUri();
@@ -44,7 +51,7 @@ class InquiryControllerTest {
 
     @Test
     void getInquiryById() {
-        URI targetUrl = UriComponentsBuilder.fromUriString("/api/enquiry/1")
+        URI targetUrl = fromUriString("/api/enquiry/1")
                 .build()
                 .encode()
                 .toUri();
@@ -58,15 +65,16 @@ class InquiryControllerTest {
         String mobileNo = "9594757518";
         InquiryDto inquiryDto = InquiryDto.builder().companyId(2L).emailId("nasruddinkhan44@gmail.com")
                 .mobileNo("9594757518").status("Y").name("Nasruddin").build();
-        URI targetUrl = UriComponentsBuilder.fromUriString("/api/enquiry/1")
+        URI targetUrl = fromUriString("/api/enquiry/1")
                 .build()
                 .encode()
                 .toUri();
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<InquiryDto> entity = new HttpEntity<>(inquiryDto, headers);
 
         inquiryDto = restTemplate.exchange(targetUrl, HttpMethod.PUT, entity, InquiryDto.class).getBody();
-        assertEquals(mobileNo, inquiryDto.getMobileNo());
+        assert inquiryDto != null;
+        assertEquals(mobileNo,
+                inquiryDto.getMobileNo());
     }
 }
