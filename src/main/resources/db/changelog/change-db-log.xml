@@ -2,9 +2,21 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
-    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <include file="/db/changelog/changes/inquiry-table.xml"/>
+    <include file="/db/changelog/changes/inquiry-add-column.xml"/>
+    <include file="/db/changelog/changes/user-table.xml"/>
+    <include file="/db/changelog/changes/role-table.xml"/>
+    <include file="/db/changelog/changes/aisgn-role-table.xml"/>
+    <include file="/db/changelog/changes/permission-table.xml"/>
+    <include file="/db/changelog/changes/assign-permission-table.xml"/>
+    <include file="/db/changelog/changes/appointments-table.xml"/>
+    <include file="/db/changelog/changes/appointment-lab-mapping-table.xml"/>
+    <include file="/db/changelog/changes/appointment-test-mapping-table.xml"/>
+    <include file="/db/changelog/changes/lab-master-table.xml"/>
+    <include file="/db/changelog/changes/test-package-table.xml"/>
+    <include file="/db/changelog/changes/test_categories-table.xml"/>
+    <include file="/db/changelog/changes/test-sub-package-table.xml"/>
+
 </databaseChangeLog>
 

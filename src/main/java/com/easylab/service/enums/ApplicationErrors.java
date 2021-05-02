@@ -1,10 +1,16 @@
 package com.easylab.service.enums;
 
+/**
+ * @author Nasruddin khan
+ */
 public enum ApplicationErrors {
     INQ_ID_NOT_FOUND("error.inquiry.id.not.found");
-    private final String value;
 
-    ApplicationErrors(String value) {
+    /**
+     * @param value
+     */
+    private final String value;
+    ApplicationErrors(final String value) {
         this.value = value;
     }
 

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="Nasruddin khan" id="101">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="reg_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="first_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="middle_name" type="VARCHAR(50)"/>
+
+            <column name="last_name" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gender" type="CHAR(1)"/>
+            <column name="dob" type="date"/>
+            <column name="mobile_no" type="CHAR(10)">
+                <constraints unique="true"/>
+            </column>
+            <column name="alt_mobile_no" type="VARCHAR(15)"/>
+
+            <column name="email_id" type="VARCHAR(50)">
+                <constraints unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(250)"/>
+            <column name="secret_key" type="VARCHAR(250)"/>
+            <column name="role" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pan_card_no" type="CHAR(10)"/>
+            <column name="aadhaar_card_no" type="CHAR(16)"/>
+            <column name="company_Id" type="VARCHAR(20)"/>
+            <column defaultValueBoolean="false"
+                    name="is_smartphone"
+                    type="boolean"/>
+            <column name="status" type="CHAR(1)" defaultValue="Y"/>
+            <column name="created_by"
+                    type="varchar(50)"/>
+            <column
+                    name="created_date"
+                    type="DATETIME"/>
+            <column
+                    name="update_by"
+                    type="varchar(50)"/>
+            <column
+                    name="update_date"
+                    type="DATETIME"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="users"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

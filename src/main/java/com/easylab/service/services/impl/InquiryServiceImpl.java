@@ -24,10 +24,14 @@ import static com.easylab.service.util.ObjectUtilMapper.mapAll;
 @Transactional
 @Slf4j
 public class InquiryServiceImpl implements InquiryService {
+
     private final InquiryRepository inquiryRepository;
 
+    /**
+     * @param inquiryRepository
+     */
     @Autowired
-    public InquiryServiceImpl(InquiryRepository inquiryRepository) {
+    public InquiryServiceImpl(final InquiryRepository inquiryRepository) {
         this.inquiryRepository = inquiryRepository;
     }
 
@@ -36,13 +40,13 @@ public class InquiryServiceImpl implements InquiryService {
      * @return
      */
     @Override
-    public InquiryDto addInquiry(InquiryDto inquiryDto) {
+    public InquiryDto addInquiry(final InquiryDto inquiryDto) {
         Inquiry inquiry = map(inquiryDto, Inquiry.class);
         inquiry = inquiryRepository.save(inquiry);
         return map(inquiry, InquiryDto.class);
     }
 
-    private Inquiry findInquiryById(Long inqId) {
+    private Inquiry findInquiryById(final Long inqId) {
         return inquiryRepository.findById(inqId).orElseThrow(() ->
                 new NotFoundException(ApplicationErrors.INQ_ID_NOT_FOUND.getValue()));
     }
@@ -52,8 +56,8 @@ public class InquiryServiceImpl implements InquiryService {
      * @return
      */
     @Override
-    public InquiryDto findByInquiryId(Long inqId) {
-        Inquiry inquiry = findInquiryById(inqId);
+    public InquiryDto findByInquiryId(final Long inqId) {
+        final Inquiry inquiry = findInquiryById(inqId);
         return map(inquiry, InquiryDto.class);
     }
 
@@ -63,7 +67,7 @@ public class InquiryServiceImpl implements InquiryService {
      * @return
      */
     @Override
-    public InquiryDto updateInquiry(InquiryDto inquiryDto, Long inqId) {
+    public InquiryDto updateInquiry(final InquiryDto inquiryDto, final Long inqId) {
         findByInquiryId(inqId);
         inquiryDto.setInqId(inqId);
         return addInquiry(inquiryDto);
@@ -73,15 +77,15 @@ public class InquiryServiceImpl implements InquiryService {
      * @param inqId
      */
     @Override
-    public void deleteInquiry(Long inqId) {
-        Inquiry inquiry = findInquiryById(inqId);
+    public void deleteInquiry(final Long inqId) {
+        final Inquiry inquiry = findInquiryById(inqId);
         inquiry.setStatus(ApplicationStatus.INACTIVE.getValue());
         inquiryRepository.save(inquiry);
     }
 
     @Override
     public List<InquiryDto> findAllInquires() {
-        List<Inquiry> inquiries = inquiryRepository.findAll();
+        final List<Inquiry> inquiries = inquiryRepository.findByStatus(ApplicationStatus.ACTIVE.getValue());
         return mapAll(inquiries, InquiryDto.class);
     }
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="Nasruddin khan" id="101">
+        <createTable tableName="appointments">
+            <column autoIncrement="true" name="appointment_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="patient_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="appointment_date" type="DATE"/>
+            <column name="start_time" type="TIME"/>
+            <column name="end_time" type="TIME"/>
+            <column name="referred_by" type="VARCHAR(50)"/>
+            <column name="total_amounts" type="DOUBLE"/>
+            <column name="discount_amount" type="DOUBLE"/>
+            <column name="discount_reason" type="VARCHAR(50)"/>
+            <column name="assign_to" type="BIGINT"/>
+            <column name="status" type="CHAR(1)" defaultValue="Y"/>
+            <column name="created_by"
+                    type="varchar(50)"/>
+            <column
+                    name="created_date"
+                    type="DATETIME"/>
+            <column
+                    name="update_by"
+                    type="varchar(50)"/>
+            <column
+                    name="update_date"
+                    type="DATETIME"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="inquiry"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

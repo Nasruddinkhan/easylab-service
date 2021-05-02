@@ -1,8 +1,12 @@
 package com.easylab.service.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
+
 /**
  * @author Nasruddin
  */
@@ -12,7 +16,8 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name = "inquiry")
-public class Inquiry {
+public class Inquiry extends BaseBean implements Serializable  {
+    private static final long serialVersionUID = -1782557472225856376L;
     @Id
     @Column(name = "inq_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

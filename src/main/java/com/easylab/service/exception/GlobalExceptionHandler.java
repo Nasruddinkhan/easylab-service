@@ -1,9 +1,11 @@
 package com.easylab.service.exception;
 
-import com.easylab.service.constant.ApiConstant;
+import com.easylab.service.constant.ApiConstants;
 import com.easylab.service.dto.ErrorDetails;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +17,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * author : Nasruddin khan
@@ -26,22 +28,37 @@ import java.util.Map;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    private final MessageSource messageSource;
 
-    public GlobalExceptionHandler(MessageSource messageSource) {
+    private final MessageSource messageSource;
+    @Autowired
+    public GlobalExceptionHandler(final MessageSource messageSource) {
+        super();
         this.messageSource = messageSource;
     }
 
+    /**
+     *
+     * @param notValidException
+     * @param headers
+     * @param status
+     * @param request
+     * @return
+     */
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach(error -> errors.put(((FieldError) error).getField(), error.getDefaultMessage()));
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException notValidException,
+                                                                  final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
+        final Map<String, String> errors = notValidException.getBindingResult().getAllErrors().stream().collect(Collectors.toMap(error -> ((FieldError) error).getField(), DefaultMessageSourceResolvable::getDefaultMessage, (a, b) -> b));
         return new ResponseEntity<>(errors, status);
     }
 
+    /**
+     *
+     * @param notFoundException
+     * @param locale
+     * @return
+     */
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorDetails> notFoundException(NotFoundException ex, Locale locale) {
-        return new ResponseEntity<>(ErrorDetails.builder().errorCode(ApiConstant.NOT_FOUND).errorMessage(messageSource.getMessage(ex.getMessage(), null, locale)).date(new Date()).build(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorDetails> notFoundException(final NotFoundException notFoundException, final Locale locale) {
+        return new ResponseEntity<>(ErrorDetails.builder().errorCode(ApiConstants.NOT_FOUND).errorMessage(messageSource.getMessage(notFoundException.getMessage(), null, locale)).date(new Date()).build(), HttpStatus.NOT_FOUND);
     }
 }

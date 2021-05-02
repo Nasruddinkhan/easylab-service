@@ -1,10 +1,17 @@
 package com.easylab.service.enums;
 
+/**
+ * @auth Nasruddin khan
+ */
 public enum ApplicationStatus {
-    INACTIVE("N");
+    INACTIVE("N"),
+    ACTIVE("Y");
+    /**
+     * @value
+     */
     private final String value;
 
-    ApplicationStatus(String value) {
+    ApplicationStatus(final String value) {
         this.value = value;
     }
 
