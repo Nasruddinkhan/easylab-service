@@ -1,0 +1,23 @@
+server:
+  port: 8086
+spring:
+  liquibase:
+    change-log: classpath:/db/changelog/change-db-log.xml
+  application:
+    name: easylab-service
+  profiles:
+    active: local
+---
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: root
+    url: jdbc:mysql://localhost:3306/lab-easy
+    username: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  profiles: local

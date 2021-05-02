@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="Nasruddin khan" id="101">
+        <createTable tableName="test_packages">
+            <column autoIncrement="true" name="package_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="package_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="short_description" type="VARCHAR(30)"/>
+            <column name="long_description" type="VARCHAR(100)"/>
+            <column name="package_amount" type="DOUBLE"/>
+            <column name="status" type="CHAR(1)" defaultValue="Y"/>
+            <column name="created_by"
+                    type="varchar(50)"/>
+            <column
+                    name="created_date"
+                    type="DATETIME"/>
+            <column
+                    name="update_by"
+                    type="varchar(50)"/>
+            <column
+                    name="update_date"
+                    type="DATETIME"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="test_packages"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
